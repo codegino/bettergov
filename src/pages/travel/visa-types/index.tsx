@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import {
-  FileText,
-  Globe,
-  ExternalLink,
-  ChevronRight,
-  Search,
-  Briefcase,
-  Users,
-  Plane,
   AlertCircle,
+  Briefcase,
+  ChevronRight,
   Compass,
+  FileText,
+  Plane,
+  Search,
+  Users,
 } from 'lucide-react'
+import { parseAsString, useQueryState } from 'nuqs'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import visaData from '../../../data/visa/philippines_visa_types.json'
 import { VisaType } from '../../../types/visa'
-import Button from '../../../components/ui/Button'
 
 interface VisaCategory {
   id: string
@@ -25,9 +23,14 @@ interface VisaCategory {
 }
 
 const VisaTypesPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('')
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>('non-immigrant')
+  const [searchTerm, setSearchTerm] = useQueryState(
+    'search',
+    parseAsString.withDefault('')
+  )
+  const [selectedCategory, setSelectedCategory] = useQueryState(
+    'category',
+    parseAsString.withDefault('non-immigrant')
+  )
 
   // Use the categories from the consolidated JSON file
   const visaCategories: VisaCategory[] = visaData.categories.map(

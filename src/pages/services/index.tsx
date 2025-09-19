@@ -1,14 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
-import {
-  Search,
-  CheckCircle2,
-  Menu,
-  X,
-  Globe,
-  ExternalLink,
-} from 'lucide-react'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
+import { CheckCircle2, Menu, Search, X } from 'lucide-react'
+import { parseAsString, useQueryState, useQueryStates } from 'nuqs'
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Card, CardContent } from '../../components/ui/Card'
 import SearchInput from '../../components/ui/SearchInput'
 import serviceCategories from '../../data/service_categories.json'
@@ -79,24 +73,17 @@ interface Category {
 const ITEMS_PER_PAGE = 16
 
 export default function ServicesPage() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategorySlug, setSelectedCategorySlug] = useState('all')
-  const [selectedSubcategorySlug, setSelectedSubcategorySlug] = useState('all')
+  const [
+    { category: selectedCategorySlug, subcategory: selectedSubcategorySlug },
+    setQueryParams,
+  ] = useQueryStates({
+    category: parseAsString.withDefault('all'),
+    subcategory: parseAsString.withDefault('all'),
+  })
+  const [searchQuery, setSearchQuery] = useQueryState('search', {
+    defaultValue: '',
+  })
   const [currentPage, setCurrentPage] = useState(1)
-
-  // Set initial category and subcategory from URL params
-  useEffect(() => {
-    const categoryParam = searchParams.get('category')
-    const subcategoryParam = searchParams.get('subcategory')
-
-    if (categoryParam) {
-      setSelectedCategorySlug(categoryParam)
-    }
-    if (subcategoryParam) {
-      setSelectedSubcategorySlug(subcategoryParam)
-    }
-  }, [searchParams])
 
   // Find selected category object
   const selectedCategory = useMemo(() => {
@@ -153,20 +140,19 @@ export default function ServicesPage() {
   }
 
   const handleCategoryChange = (categorySlug: string) => {
-    setSelectedCategorySlug(categorySlug)
-    setSelectedSubcategorySlug('all')
     setCurrentPage(1)
-    setSearchParams(categorySlug === 'all' ? {} : { category: categorySlug })
+    setQueryParams({
+      category: categorySlug,
+      subcategory: null,
+    })
   }
 
   const handleSubcategoryChange = (subcategorySlug: string) => {
-    setSelectedSubcategorySlug(subcategorySlug)
     setCurrentPage(1)
-    setSearchParams(
-      subcategorySlug === 'all'
-        ? { category: selectedCategorySlug }
-        : { category: selectedCategorySlug, subcategory: subcategorySlug }
-    )
+    setQueryParams({
+      category: selectedCategorySlug,
+      subcategory: subcategorySlug,
+    })
   }
 
   // const currentCategoryData = selectedCategory

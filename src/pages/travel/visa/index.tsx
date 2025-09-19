@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react'
 import {
+  AlertCircle,
   Compass,
+  ExternalLink,
   FileCheck,
   Globe,
   Search,
-  AlertCircle,
-  ExternalLink,
 } from 'lucide-react'
+import { useQueryState } from 'nuqs'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import Button from '../../../components/ui/Button'
 import visaData from '../../../data/visa/philippines_visa_policy.json'
 import { PhilippinesVisaPolicy, VisaRequirement } from '../../../types/visa'
-import Button from '../../../components/ui/Button'
-import { Link } from 'react-router-dom'
 
 type Country = string
 
@@ -18,7 +19,7 @@ type Country = string
 
 const VisaPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('')
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
+  const [selectedCountry, setSelectedCountry] = useQueryState('country')
   const [visaRequirement, setVisaRequirement] =
     useState<VisaRequirement | null>(null)
   const [allCountries, setAllCountries] = useState<Country[]>([])

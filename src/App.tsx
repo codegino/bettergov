@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom'
-import { LanguageProvider } from './contexts/LanguageContext'
+import { NuqsAdapter } from 'nuqs/adapters/react'
 import Navbar from './components/layout/Navbar'
 import Ticker from './components/ui/Ticker'
 import Footer from './components/layout/Footer'
@@ -83,8 +83,8 @@ import Discord from './pages/Discord'
 
 function App() {
   return (
-    <LanguageProvider>
-      <Router>
+    <Router>
+      <NuqsAdapter>
         <div className="min-h-screen flex flex-col">
           <Navbar />
           <Ticker />
@@ -120,11 +120,26 @@ function App() {
             {/* Data Routes */}
             <Route path="/data/weather" element={<WeatherPage />} />
             <Route path="/data/forex" element={<ForexPage />} />
-            <Route path="/flood-control-projects" element={<FloodControlProjects />} />
-            <Route path="/flood-control-projects/table" element={<FloodControlProjectsTable />} />
-            <Route path="/flood-control-projects/map" element={<FloodControlProjectsMap />} />
-            <Route path="/flood-control-projects/contractors" element={<FloodControlProjectsContractors />} />
-            <Route path="/flood-control-projects/contractors/:contractor-name" element={<ContractorDetail />} />
+            <Route
+              path="/flood-control-projects"
+              element={<FloodControlProjects />}
+            />
+            <Route
+              path="/flood-control-projects/table"
+              element={<FloodControlProjectsTable />}
+            />
+            <Route
+              path="/flood-control-projects/map"
+              element={<FloodControlProjectsMap />}
+            />
+            <Route
+              path="/flood-control-projects/contractors"
+              element={<FloodControlProjectsContractors />}
+            />
+            <Route
+              path="/flood-control-projects/contractors/:contractor-name"
+              element={<ContractorDetail />}
+            />
 
             {/* Services Routes */}
             <Route path="/services/websites" element={<WebsitesDirectory />} />
@@ -213,10 +228,9 @@ function App() {
           </Routes>
           <Footer />
         </div>
-      </Router>
-    </LanguageProvider>
+      </NuqsAdapter>
+    </Router>
   )
 }
 
 export default App
-
