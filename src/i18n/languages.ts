@@ -17,18 +17,11 @@ export const LANGUAGES: Record<LanguageType, LanguageInfo> = {
   pam: { code: 'pam', name: 'Kapampangan', nativeName: 'Kapampangan', enabled: false },
   bcl: { code: 'bcl', name: 'Bikol', nativeName: 'Bikol Central', enabled: false },
   pag: { code: 'pag', name: 'Pangasinan', nativeName: 'Pangasinan', enabled: false },
-  tgl: { code: 'tgl', name: 'Tagalog', nativeName: 'Tagalog', enabled: false }, // Alias for fil
   mag: { code: 'mag', name: 'Maguindanao', nativeName: 'Maguindanaon', enabled: false },
   tsg: { code: 'tsg', name: 'Tausug', nativeName: 'Bahasa Sūg', enabled: false },
   mdh: { code: 'mdh', name: 'Maranao', nativeName: 'Meranaw', enabled: false },
 }
 
 export const ENABLED_LANGUAGES = Object.values(LANGUAGES).filter(lang => lang.enabled)
-
-// Normalize language codes (fil and tgl are the same)
-export const normalizeLanguage = (lang: LanguageType): LanguageType => {
-  if (lang === 'tgl') return 'fil'
-  return lang
-}
 
 export const DEFAULT_LANGUAGE: LanguageType = 'en'
