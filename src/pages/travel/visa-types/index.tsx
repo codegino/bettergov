@@ -7,12 +7,12 @@ import {
   Plane,
   Search,
   Users,
-} from 'lucide-react'
-import { parseAsString, useQueryState } from 'nuqs'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import visaData from '../../../data/visa/philippines_visa_types.json'
-import { VisaType } from '../../../types/visa'
+} from "lucide-react"
+import { parseAsString, useQueryState } from "nuqs"
+import React from "react"
+import { Link } from "react-router-dom"
+import visaData from "../../../data/visa/philippines_visa_types.json"
+import { VisaType } from "../../../types/visa"
 
 interface VisaCategory {
   id: string
@@ -24,35 +24,33 @@ interface VisaCategory {
 
 const VisaTypesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useQueryState(
-    'search',
-    parseAsString.withDefault('')
+    "search",
+    parseAsString.withDefault("")
   )
   const [selectedCategory, setSelectedCategory] = useQueryState(
-    'category',
-    parseAsString.withDefault('non-immigrant')
+    "category",
+    parseAsString.withDefault("non-immigrant")
   )
 
   // Use the categories from the consolidated JSON file
-  const visaCategories: VisaCategory[] = visaData.categories.map(
-    (category) => ({
-      id: category.id,
-      name: category.name,
-      description: category.description,
-      icon: getCategoryIcon(category.id),
-      visaTypes: category.visaTypes,
-    })
-  )
+  const visaCategories: VisaCategory[] = visaData.categories.map(category => ({
+    id: category.id,
+    name: category.name,
+    description: category.description,
+    icon: getCategoryIcon(category.id),
+    visaTypes: category.visaTypes,
+  }))
 
   // Helper function to get the appropriate icon for each category
   function getCategoryIcon(categoryId: string) {
     switch (categoryId) {
-      case 'immigrant':
+      case "immigrant":
         return <Users size={24} />
-      case 'non-immigrant':
+      case "non-immigrant":
         return <Plane size={24} />
-      case 'special':
+      case "special":
         return <Briefcase size={24} />
-      case 'permits':
+      case "permits":
         return <FileText size={24} />
       default:
         return <Compass size={24} />
@@ -66,25 +64,25 @@ const VisaTypesPage: React.FC = () => {
 
   // Filter visa types based on search term
   const filteredCategories =
-    searchTerm.trim() === ''
+    searchTerm.trim() === ""
       ? visaCategories
       : visaCategories
-          .map((category) => ({
+          .map(category => ({
             ...category,
             visaTypes: category.visaTypes.filter(
-              (visa) =>
+              visa =>
                 visa.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 visa.description
                   .toLowerCase()
                   .includes(searchTerm.toLowerCase())
             ),
           }))
-          .filter((category) => category.visaTypes.length > 0)
+          .filter(category => category.visaTypes.length > 0)
 
   // Get all visa types across categories for search results display
   const allVisaTypes =
-    searchTerm.trim() !== ''
-      ? filteredCategories.flatMap((category) => category.visaTypes)
+    searchTerm.trim() !== ""
+      ? filteredCategories.flatMap(category => category.visaTypes)
       : []
 
   return (
@@ -108,7 +106,7 @@ const VisaTypesPage: React.FC = () => {
               placeholder="Search visa types..."
               className="flex-1 p-2 outline-none text-gray-800"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
@@ -116,7 +114,7 @@ const VisaTypesPage: React.FC = () => {
 
       <div className="container mx-auto max-w-6xl px-4 py-8">
         {/* Search Results Display */}
-        {searchTerm.trim() !== '' && (
+        {searchTerm.trim() !== "" && (
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">
               Showing results for: "{searchTerm}"
@@ -144,7 +142,7 @@ const VisaTypesPage: React.FC = () => {
         )}
 
         {/* Main Content with Sidebar */}
-        {(searchTerm.trim() === '' || filteredCategories.length > 0) && (
+        {(searchTerm.trim() === "" || filteredCategories.length > 0) && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {/* Sidebar */}
             <div className="md:col-span-1">
@@ -155,14 +153,14 @@ const VisaTypesPage: React.FC = () => {
                   </h2>
                 </div>
                 <nav className="p-2">
-                  {visaCategories.map((category) => (
+                  {visaCategories.map(category => (
                     <button
                       key={category.id}
                       onClick={() => handleCategoryClick(category.id)}
                       className={`w-full text-left flex items-center p-3 rounded-md transition-colors ${
                         selectedCategory === category.id
-                          ? 'bg-blue-50 text-blue-700'
-                          : 'text-gray-700 hover:bg-gray-50'
+                          ? "bg-blue-50 text-blue-700"
+                          : "text-gray-700 hover:bg-gray-50"
                       }`}
                     >
                       <span className="mr-3">{category.icon}</span>
@@ -176,8 +174,8 @@ const VisaTypesPage: React.FC = () => {
             {/* Main Content */}
             <div className="md:col-span-3">
               {filteredCategories.map(
-                (category) =>
-                  (searchTerm.trim() !== '' ||
+                category =>
+                  (searchTerm.trim() !== "" ||
                     category.id === selectedCategory) && (
                     <div key={category.id} className="mb-8">
                       <div className="flex items-center mb-4">
@@ -225,7 +223,7 @@ const VisaTypesPage: React.FC = () => {
               <p className="text-sm text-blue-700 mt-1">
                 This information is provided for reference only. For the most
                 accurate and up-to-date visa requirements, please consult the
-                official{' '}
+                official{" "}
                 <a
                   href="https://immigration.gov.ph/visas/"
                   target="_blank"
@@ -233,8 +231,8 @@ const VisaTypesPage: React.FC = () => {
                   className="underline hover:text-blue-900"
                 >
                   Philippine Bureau of Immigration
-                </a>{' '}
-                or{' '}
+                </a>{" "}
+                or{" "}
                 <a
                   href="https://dfa.gov.ph/"
                   target="_blank"
@@ -242,7 +240,7 @@ const VisaTypesPage: React.FC = () => {
                   className="underline hover:text-blue-900"
                 >
                   Department of Foreign Affairs
-                </a>{' '}
+                </a>{" "}
                 website.
               </p>
               <p className="text-sm text-blue-700 mt-2">
