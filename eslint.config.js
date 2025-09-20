@@ -41,6 +41,7 @@ export default tseslint.config(
       'react/react-in-jsx-scope': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
+      'react/no-unescaped-entities': 'warn',
     },
     settings: {
       react: {
