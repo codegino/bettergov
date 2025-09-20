@@ -32,7 +32,7 @@ To organize translations better the concept of namespacing is used
 **Note**: English is the fallback language. If a translation is missing in your language, it will show English instead. So you only need to translate what you can!
 
 Example:
-```json
+```json5
 // English
 {
   "title": "Visa Information",
